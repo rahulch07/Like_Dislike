@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like Dislike Page</title>
+    <style>body{
+        margin: 40px;
+      }
+      
+      button{
+        cursor: pointer;
+        outline: 0;
+        color: #AAA;
+      
+      }
+      
+      .btn:focus {
+        outline: none;
+      }
+      
+      .green{
+        color: green;
+      }
+      
+      .red{
+        color: red;
+      }
+      img{
+        height: 150px;
+    }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+   
+   <button class="btn" id="like_button">Like</button>
+   <button class="btn" id="dislike_button">Dislike</button>
+   <p>Likes: <span id="like_count">{{ like_count }}</span></p>
+    <p>Dislikes: <span id="dislike_count">{{ dislike_count }}</span></p>
+
+
+   <script>
+    let count1 = 0;
+    let count2 = 0;
+    
+    $(document).ready(function() {
+      $('#like_button').click(function() { count1++
+          $.ajax({
+              type: 'POST',
+              url: '{% url "like_dislike" %}',
+              data: {
+                  like: true,
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+              },
+              
+          
+          });
+          document.getElementById("like_count").innerHTML = {{ like_count }} + count1;
+          document.getElementById("dislike_count").innerHTML = {{ dislike_count }} + count2;
+          
+      });
+
+      $('#dislike_button').click(function() { count2++
+          $.ajax({
+              type: 'POST',
+              url: '{% url "like_dislike" %}',
+              data: {
+                  dislike: true,
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+              },
+              
+          });
+          document.getElementById("like_count").innerHTML = {{ like_count }} + count1;
+          document.getElementById("dislike_count").innerHTML = {{ dislike_count }} + count2;
+      });
+      
+    }
+    );
+   </script>
+
+</body>
+</html>
